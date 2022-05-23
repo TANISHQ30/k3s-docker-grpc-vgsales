@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vgsales-client-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vgsales-client
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: vgsales-client
+    spec:
+      containers:
+      - name: vgsales-client
+        image: t4ni5hq/vgsales_client:latest

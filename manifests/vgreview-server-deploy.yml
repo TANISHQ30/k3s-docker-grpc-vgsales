@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vgreview-server-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vgreview-server
+  minReadySeconds: 6
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: vgreview-server
+    spec:
+      containers:
+      - name: vgreview-server
+        image: t4ni5hq/vgreview_server:latest
+        ports:
+        - containerPort: 50061

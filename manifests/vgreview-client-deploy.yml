@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vgreview-client-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vgreview-client
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: vgreview-client
+    spec:
+      containers:
+      - name: vgreview-client
+        image: t4ni5hq/vgreview_client:latest

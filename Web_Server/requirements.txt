@@ -1,0 +1,6 @@
+grpcio
+googleapis-common-protos
+flask
+redis
+plotly
+pandas==1.0.3

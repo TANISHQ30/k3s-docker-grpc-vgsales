@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vgsales-weblogs-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vgsales-weblogs
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: vgsales-weblogs
+    spec:
+      containers:
+      - name: vgsales-weblogs
+        image: t4ni5hq/vgsales_weblogs:latest
+        ports:
+        - containerPort: 5000

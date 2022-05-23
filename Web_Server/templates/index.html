@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="refresh" content="2">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"
+        integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </html>
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        .row {
+          margin-left:-5px;
+          margin-right:-5px;
+        }
+          
+        .column {
+          float: left;
+          width: 50%;
+          padding: 5px;
+        }
+        
+        /* Clearfix (clear floats) */
+        .row::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          width: 100%;
+        }
+        
+        th, td {
+          text-align: left;
+          padding: 16px;
+        }
+        </style>
+    <body>
+        <h2 class="mt-2 py-3 text-center">Results updated every 2 seconds (on left:old data and on right:new data):</h2>
+        <div class="row mx-2">
+            <div class="column">
+            <h5 class="sub-header">Assignment 1 table</h5>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Metrics</th>
+                                <th>Values</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in data.items() %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+        <div class="column">
+            <h5 class="sub-header">Assignment 2 table</h5>
+                
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>New metrics</th>
+                                <th>New values</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in data_new.items() %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+
+        <h2 class="mt-2 py-3 text-center">Cumulative average of game sold in a region in previous 3 minutes (3-minute metric)</h2>
+        
+        <div id='chart' class='chart'”></div>
+        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+        {% if label|length %}
+            <h6 class="my-2 text-center">Results ready!</h6>
+            <script type='text/javascript'>
+                var graphs = {{graphJSON | safe}};
+                Plotly.plot('chart',graphs,{});
+            </script>
+        {% else %}
+            <h6 class="my-2 text-center">The result will be shown after 3 minutes</h6>
+        {% endif %}
+                
+    </body>
+</html>

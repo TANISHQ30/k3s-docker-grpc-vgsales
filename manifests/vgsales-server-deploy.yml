@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vgsales-server-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  minReadySeconds: 6
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: server
+        image: t4ni5hq/vgsales_server:latest
+        ports:
+        - containerPort: 50051

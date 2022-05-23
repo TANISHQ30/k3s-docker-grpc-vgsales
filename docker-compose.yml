@@ -1,0 +1,46 @@
+version: '3'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Server/Server.Dockerfile
+    ports:
+      - "50051:50051"
+
+  vgreview_server:
+    build:
+      context: .
+      dockerfile: Server_Review/Server_Review.Dockerfile
+    ports:
+      - "50061:50061"
+
+  redis:
+    image: redis:alpine
+    ports:
+    - "6379:6379"
+
+  client:
+    build:
+      context: .
+      dockerfile: Client/Client.Dockerfile
+    depends_on:
+      - "server"
+    command: ["./wait-for-it.sh", "server:50051", "--", "python3", "Client/Client.py"]
+
+  client_review:
+    build:
+      context: .
+      dockerfile: Client_Review/Client_Review.Dockerfile
+    depends_on:
+      - "vgreview_server"
+    command: ["./wait-for-it.sh", "vgreview-server:50061", "--", "python3", "Client_Review/ClientReview.py"]
+
+  
+  weblogs:
+    build:
+      context: .
+      dockerfile: Web_Server/Weblog.Dockerfile
+    ports:
+      - "8080:5000"
+    depends_on:
+      - "redis"

@@ -1,0 +1,131 @@
+LINUX
+
+-----------------------------------------------------------------
+
+Remove single container = docker rm <container_id>
+
+List all docker containers (running/stopped) with id only = docker ps -aq 
+
+Remove all docker containers = docker rm -f $(docker ps -aq)
+
+Remove all docker images = docker rmi -f $(docker images -aq)
+
+Run docker image (make it docker container) = docker run <image_name>:<tag_name>
+
+Run docker image in detached mode = docker run -d <image_name>:<tag_name>
+
+List all running images (containers) = docker container ls OR docker ps (USE THIS MUCH FASTER)
+
+List all non-running containers = docker ps -a
+
+List all images (not running) = docker images
+
+Stop a container (running image) = docker stop <container_id>
+
+Give name to the docker container = docker run --name <container_name> -p 8080:80 nginx:latest
+
+Print all containers in format = docker ps --format="\n ID:\t{{.ID}}\n NAME:\t{{.Names}}\n IMAGE:\t{{.Image}}\n PORTS:\t{{.Ports}}\n COMMAND:\t{{.Command}}\n CREATED:\t{{.CreatedAt}}\n STATUS:\t{{.Status}}\n"
+
+	layout = "\n ID:\t{{.ID}}\n NAME:\t{{.Names}}\n IMAGE:\t{{.Image}}\n PORTS:\t{{.Ports}}\n COMMAND:\t{{.Command}}\n CREATED:\t{{.CreatedAt}}\n STATUS:\t{{.Status}}\n"
+	
+=========
+
+Start container and add new folder to container = docker run --name website -v $(pwd):/usr/share/nginx/html:ro -d -p 8080:80 nginx:latest
+pwd --> get present working directory
+
+Get linux file structure in a container = docker exec -it <container_name> bash
+
+
+
+========================================================================================
+
+KUBERNETES
+
+========================================================================================
+
+Create deployment/service manifests - kubectl create -f greeter-server-svc.yml
+
+Delete deployment/service manifests - kubectl delete -f greeter-server-svc.yml
+
+Delete all deployments - kubectl delete all --all
+
+Show running pods - kubectl get pods
+
+Log for a deployment - kubectl logs [deployment-name] -p
+
+
+========================================================================================
+
+COMMANDS
+
+========================================================================================
+
+kubectl create -f vgsales-server-deploy.yml
+kubectl create -f vgreview-server-deploy.yml
+kubectl create -f vgsales-server-svc.yml 
+kubectl create -f vgreview-server-svc.yml
+kubectl create -f vgsales-weblogs-deploy.yml
+kubectl create -f vgsales-weblogs-svc.yml
+kubectl create -f redis-deploy.yml
+kubectl create -f redis-svc.yml
+kubectl create -f vgsales-client-deploy.yml
+kubectl create -f vgreview-client-deploy.yml
+
+
+========================================================================================
+
+KUBELESS
+
+========================================================================================
+
+Create new namespace - kubectl create ns kubeless
+
+Get namespace - kubectl get ns
+
+Get all namespaces - kubectl -n kubeless get all
+
+describe containers - kubectl -n kubeless describe deploy kubeless-controller-manager
+
+Run kubeless function - kubeless function deploy clean-data --runtime python3.7 --from-file clean_data.py --handler clean_data.processLine
+
+Show all kubeless pods - kubectl -n kubeless get pods
+
+Show all kubeless functions - kubeless function ls
+
+Show all (deployments, services and kubeless func) - kubectl get all 
+
+Describe pod / show pod details - kubectl describe pod hello-75fb8ddcf7-wbdbw
+
+Call kub function / show result - kubeless function call clean-data --data '2,"Super Mario Bros".,NES,1985,Platform,Nintendo,29.08,3.58,6.81,0.77,40.24'
+
+show function logs = kubectl logs -l function=[name]
+
+Delete kub function - kubectl delete function clean-data
+
+
+========================================================================================
+
+PROMETHEUS
+
+========================================================================================
+
+kubectl port-forward -n kube-monitoring prometheus-prometheus-prometheus-oper-prometheus-0 9090
+
+
+========================================================================================
+
+GRAFANA
+
+========================================================================================
+
+kubectl port-forward -n kube-monitoring prometheus-grafana-86f84b5c6c-f4nbd 3000
+
+kubectl get secret --namespace kube-monitoring prometheus-grafana -o yaml
+decode username - echo "YWRtaW4=" | base64 --decode
+decode password - echo "YWRtaW4=" | base64 --decode
+
+Admin username - admin
+Admin password - prom-operator
+
+
+pandas==0.23.4

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vgreview-server
+  labels:
+    app: vgreview-server
+spec:
+  ports:
+  - port: 50061
+    protocol: TCP
+  selector:
+    app: vgreview-server
