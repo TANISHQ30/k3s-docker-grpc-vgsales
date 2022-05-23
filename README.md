@@ -1,9 +1,11 @@
-All the microservices, including new and old ones from assignment 1 are moved to the kubernetes environment.
+# Quick overview
+
+All the microservices, including new and old ones from assignment [docker-grpc-vgsales](https://github.com/TANISHQ30/docker-grpc-vgsales) are moved to the kubernetes environment.
 
 The application is extended by adding another data source (new microservices for streaming and analysis). To accommodate the new dataset, I created different application pods and two new repositories. They are below,
 
-1. vgreview_client: Responsible to read the dataset and send 2 records per second
-2. vgreview_server: Responsible for finding the game with the highest number of user ratings. The second dataset consists of game titles, game info and user reviews.
+1. vgreview_client: Responsible to read the video game review dataset and send 2 records per second
+2. vgreview_server: Responsible for finding the game with the highest number of user ratings. The second dataset consists of game titles, game info and user reviews. The second dataset can be found [here](https://www.kaggle.com/datasets/launay10christian/video-games-review).
 
 The application is scaled horizontally. The application scaling and update strategy is defined in the yml file. I choose to keep the replica set for all the deployments to 1. The decision was made considering the hardware resources constraints. The application in real world would be scaled with various replica set values. If I had the resources needed for scaling, I would assign higher replica sets to weblog and server deployments.
 
